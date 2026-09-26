@@ -1,6 +1,7 @@
 // Version 5
 
 import QtQuick 2.0
+import QtQml
 import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts 1.0
