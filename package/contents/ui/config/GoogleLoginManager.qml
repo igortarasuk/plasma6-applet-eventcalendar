@@ -79,6 +79,7 @@ Item {
 	property var m_calendarList: ConfigSerializedString {
 		id: m_calendarList
 		configKey: session.cfgKey('calendarList')
+		configPage: session.configPage
 		defaultValue: []
 	}
 	property alias calendarList: m_calendarList.value
@@ -86,6 +87,7 @@ Item {
 		property var m_calendarIdList: ConfigSerializedString {
 		id: m_calendarIdList
 		configKey: session.cfgKey('calendarIdList')
+		configPage: session.configPage
 		defaultValue: []
 
 			function serialize() {
@@ -109,6 +111,7 @@ Item {
 	property var m_tasklistList: ConfigSerializedString {
 		id: m_tasklistList
 		configKey: session.cfgKey('tasklistList')
+		configPage: session.configPage
 		defaultValue: []
 	}
 	property alias tasklistList: m_tasklistList.value
@@ -116,6 +119,7 @@ Item {
 		property var m_tasklistIdList: ConfigSerializedString {
 		id: m_tasklistIdList
 		configKey: session.cfgKey('tasklistIdList')
+		configPage: session.configPage
 		defaultValue: []
 
 			function serialize() {

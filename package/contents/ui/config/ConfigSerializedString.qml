@@ -3,7 +3,8 @@ import QtQuick 2.0
 QtObject {
 	id: obj
 	property string configKey: ''
-	readonly property var configPage: {
+	// QtObject has no parent, so owners should assign the config page explicitly.
+	property var configPage: {
 		var p = obj.parent
 		while (p) {
 			if (p.__eventCalendarConfigPage) return p
