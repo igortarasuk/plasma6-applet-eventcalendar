@@ -12,6 +12,8 @@ CalendarManager {
 	Component.onCompleted: {
 		bindSignals(googleCalendarManager)
 		bindSignals(googleTasksManager)
+		bindSignals(googleCalendarManager2)
+		bindSignals(googleTasksManager2)
 		bindSignals(plasmaCalendarManager)
 		// bindSignals(icalManager)
 		// bindSignals(debugCalendarManager)
@@ -88,6 +90,20 @@ CalendarManager {
 	GoogleTasksManager {
 		id: googleTasksManager
 		session: googleApiSession
+	}
+
+	// Second Google account (config keys prefixed with "account2").
+	GoogleApiSession {
+		id: googleApiSession2
+		accountPrefix: "account2"
+	}
+	GoogleCalendarManager {
+		id: googleCalendarManager2
+		session: googleApiSession2
+	}
+	GoogleTasksManager {
+		id: googleTasksManager2
+		session: googleApiSession2
 	}
 
 	PlasmaCalendarManager {

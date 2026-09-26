@@ -15,7 +15,20 @@ Item {
 		return null
 	}
 
+	// Empty for the first account, "account2" for the second one.
+	property string accountPrefix: ""
+	readonly property var accountKeys: [
+		"sessionClientId", "sessionClientSecret",
+		"accessToken", "accessTokenType", "accessTokenExpiresAt", "refreshToken",
+		"calendarList", "calendarIdList", "tasklistList", "tasklistIdList",
+	]
+	function cfgKey(key) {
+		if (!accountPrefix || accountKeys.indexOf(key) < 0) return key
+		return accountPrefix + key.charAt(0).toUpperCase() + key.slice(1)
+	}
+
 	function getCfg(key, fallbackValue) {
+		key = cfgKey(key)
 		if (configPage) {
 			var v = configPage.getConfigValue(key, fallbackValue)
 			// Treat empty custom OAuth credentials as "use built-in defaults".
@@ -37,6 +50,7 @@ Item {
 	}
 
 	function setCfg(key, value) {
+		key = cfgKey(key)
 		if (configPage) {
 			configPage.setConfigValue(key, value)
 		} else {
@@ -64,14 +78,14 @@ Item {
 	// Data
 	property var m_calendarList: ConfigSerializedString {
 		id: m_calendarList
-		configKey: 'calendarList'
+		configKey: session.cfgKey('calendarList')
 		defaultValue: []
 	}
 	property alias calendarList: m_calendarList.value
 
 		property var m_calendarIdList: ConfigSerializedString {
 		id: m_calendarIdList
-		configKey: 'calendarIdList'
+		configKey: session.cfgKey('calendarIdList')
 		defaultValue: []
 
 			function serialize() {
@@ -94,14 +108,14 @@ Item {
 
 	property var m_tasklistList: ConfigSerializedString {
 		id: m_tasklistList
-		configKey: 'tasklistList'
+		configKey: session.cfgKey('tasklistList')
 		defaultValue: []
 	}
 	property alias tasklistList: m_tasklistList.value
 
 		property var m_tasklistIdList: ConfigSerializedString {
 		id: m_tasklistIdList
-		configKey: 'tasklistIdList'
+		configKey: session.cfgKey('tasklistIdList')
 		defaultValue: []
 
 			function serialize() {
@@ -141,7 +155,7 @@ Item {
 		url += "&response_type=code"
 		url += "&redirect_uri=" + encodeURIComponent(session.redirectUri)
 		url += "&access_type=offline"
-		url += "&prompt=consent"
+		url += "&prompt=" + encodeURIComponent("select_account consent")
 		url += "&include_granted_scopes=true"
 		url += "&client_id=" + encodeURIComponent(session.getCfg("latestClientId", ""))
 		return url

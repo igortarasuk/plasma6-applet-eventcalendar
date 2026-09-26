@@ -392,6 +392,37 @@
 		<entry name="tasklistIdList" type="string">
 			<default></default>
 		</entry>
+		<!-- Second Google account. Same keys as above, prefixed with account2. -->
+		<entry name="account2SessionClientId" type="string">
+			<default></default>
+		</entry>
+		<entry name="account2SessionClientSecret" type="string">
+			<default></default>
+		</entry>
+		<entry name="account2AccessToken" type="string">
+			<default></default>
+		</entry>
+		<entry name="account2AccessTokenType" type="string">
+			<default></default>
+		</entry>
+		<entry name="account2AccessTokenExpiresAt" type="double">
+			<default>0</default>
+		</entry>
+		<entry name="account2RefreshToken" type="string">
+			<default></default>
+		</entry>
+		<entry name="account2CalendarList" type="string" stringType="base64json">
+			<default></default>
+		</entry>
+		<entry name="account2CalendarIdList" type="string">
+			<default></default>
+		</entry>
+		<entry name="account2TasklistList" type="string" stringType="base64json">
+			<default></default>
+		</entry>
+		<entry name="account2TasklistIdList" type="string">
+			<default></default>
+		</entry>
 		<entry name="googleEventClickAction" type="string">
 			<!-- enum: WebEventView, WebMonthView -->
 			<default>WebEventView</default>

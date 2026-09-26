@@ -316,6 +316,26 @@ KCM.SimpleKCM {
 	property var cfg_tasklistListDefault
 	property var cfg_tasklistIdList
 	property var cfg_tasklistIdListDefault
+	property var cfg_account2SessionClientId
+	property var cfg_account2SessionClientIdDefault
+	property var cfg_account2SessionClientSecret
+	property var cfg_account2SessionClientSecretDefault
+	property var cfg_account2AccessToken
+	property var cfg_account2AccessTokenDefault
+	property var cfg_account2AccessTokenType
+	property var cfg_account2AccessTokenTypeDefault
+	property var cfg_account2AccessTokenExpiresAt
+	property var cfg_account2AccessTokenExpiresAtDefault
+	property var cfg_account2RefreshToken
+	property var cfg_account2RefreshTokenDefault
+	property var cfg_account2CalendarList
+	property var cfg_account2CalendarListDefault
+	property var cfg_account2CalendarIdList
+	property var cfg_account2CalendarIdListDefault
+	property var cfg_account2TasklistList
+	property var cfg_account2TasklistListDefault
+	property var cfg_account2TasklistIdList
+	property var cfg_account2TasklistIdListDefault
 	property var cfg_googleEventClickAction
 	property var cfg_googleEventClickActionDefault
 		property var cfg_googleHideGoalsDesc
