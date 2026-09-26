@@ -233,7 +233,21 @@ Item {
 				return
 			}
 			m_calendarList.value = data.items
+			selectPrimaryCalendarIfNone()
 		})
+	}
+
+	// A freshly connected account shows its own calendar instead of nothing.
+	function selectPrimaryCalendarIfNone() {
+		if ((calendarIdList || []).length > 0) return
+		var list = calendarList || []
+		for (var i = 0; i < list.length; i++) {
+			if (list[i] && list[i].primary === true) {
+				// Extra accounts store the real id: "primary" would collide between accounts.
+				calendarIdList = [accountPrefix ? list[i].id : "primary"]
+				return
+			}
+		}
 	}
 
 	function fetchGCalCalendars(args, callback) {

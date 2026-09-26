@@ -15,13 +15,58 @@ ConfigPage {
 	property bool oauthBusy: false
 	property bool syncingSelectionModels: false
 
-	// Currently edited Google account: 0 = first, 1 = second ("account2" config keys).
+	// Google account slots: 0 uses the unprefixed config keys, the rest "account2".."account5".
+	readonly property var extraAccountPrefixes: ["account2", "account3", "account4", "account5"]
+	// Currently edited slot.
 	property int accountIndex: 0
-	readonly property var lm: accountIndex === 1 ? googleLoginManager2 : googleLoginManager
+	function loginManagerAt(slot) {
+		if (slot <= 0) return googleLoginManager
+		return extraLoginManagers.itemAt(slot - 1) || null
+	}
+	readonly property var lm: {
+		extraLoginManagers.count // re-evaluate once the extra managers exist
+		return loginManagerAt(accountIndex) || googleLoginManager
+	}
+	function syncAccountTabBar() {
+		accountTabBar.currentIndex = Math.max(0, visibleSlots.indexOf(accountIndex))
+	}
+	onAccountIndexChanged: syncAccountTabBar()
 	onLmChanged: {
 		clearStatus()
 		rebuildCalendarsModel()
 		rebuildTasklistsModel()
+	}
+
+	// Tabs: the first account, every connected extra account, then one free slot to add an account.
+	readonly property var visibleSlots: {
+		var slots = [0]
+		var freeSlot = -1
+		for (var i = 1; i <= extraLoginManagers.count; i++) {
+			var m = loginManagerAt(i)
+			if (m && m.isLoggedIn) {
+				slots.push(i)
+			} else if (freeSlot < 0) {
+				freeSlot = i
+			}
+		}
+		if (freeSlot >= 0 && googleLoginManager.isLoggedIn) {
+			slots.push(freeSlot)
+		}
+		return slots
+	}
+	onVisibleSlotsChanged: {
+		if (visibleSlots.indexOf(accountIndex) < 0) {
+			accountIndex = 0
+		}
+		syncAccountTabBar()
+	}
+
+	function accountTabLabel(slot) {
+		var m = loginManagerAt(slot)
+		if (m && m.isLoggedIn) {
+			return accountEmail(m) || i18n("Account %1", slot + 1)
+		}
+		return slot === 0 ? i18n("Account 1") : i18n("+ Add account")
 	}
 
 	function accountEmail(manager) {
@@ -257,15 +302,23 @@ ConfigPage {
 		onTasklistIdListChanged: if (page.lm === googleLoginManager) rebuildTasklistsModel()
 	}
 
-	GoogleLoginManager {
-		id: googleLoginManager2
-		accountPrefix: "account2"
+	// Holds the extra accounts' managers; an Item parent lets them find this config page.
+	Item {
+		visible: false
+		Repeater {
+			id: extraLoginManagers
+			model: page.extraAccountPrefixes
+			delegate: GoogleLoginManager {
+				id: extraLoginManager
+				accountPrefix: modelData
 
-		onError: showStatus(page.localizedErrorMessage(err), Kirigami.MessageType.Error)
-		onCalendarListChanged: if (page.lm === googleLoginManager2) rebuildCalendarsModel()
-		onTasklistListChanged: if (page.lm === googleLoginManager2) rebuildTasklistsModel()
-		onCalendarIdListChanged: if (page.lm === googleLoginManager2) rebuildCalendarsModel()
-		onTasklistIdListChanged: if (page.lm === googleLoginManager2) rebuildTasklistsModel()
+				onError: showStatus(page.localizedErrorMessage(err), Kirigami.MessageType.Error)
+				onCalendarListChanged: if (page.lm === extraLoginManager) rebuildCalendarsModel()
+				onTasklistListChanged: if (page.lm === extraLoginManager) rebuildTasklistsModel()
+				onCalendarIdListChanged: if (page.lm === extraLoginManager) rebuildCalendarsModel()
+				onTasklistIdListChanged: if (page.lm === extraLoginManager) rebuildTasklistsModel()
+			}
+		}
 	}
 
 	ListModel { id: calendarsModel }
@@ -288,14 +341,13 @@ ConfigPage {
 			id: accountTabBar
 			Layout.fillWidth: true
 			enabled: !page.oauthBusy
-			currentIndex: page.accountIndex
-			onCurrentIndexChanged: page.accountIndex = currentIndex
 
-			QQC2.TabButton {
-				text: page.accountEmail(googleLoginManager) || i18n("Account 1")
-			}
-			QQC2.TabButton {
-				text: page.accountEmail(googleLoginManager2) || i18n("Account 2")
+			Repeater {
+				model: page.visibleSlots
+				delegate: QQC2.TabButton {
+					text: page.accountTabLabel(modelData)
+					onClicked: page.accountIndex = modelData
+				}
 			}
 		}
 
@@ -640,6 +692,13 @@ ConfigPage {
 	}
 
 	Component.onCompleted: {
+		// Accounts connected before their calendar list was saved: fetch it (also gives the tab its email).
+		for (var i = 0; i <= extraLoginManagers.count; i++) {
+			var m = loginManagerAt(i)
+			if (m && m.isLoggedIn && (m.calendarList || []).length === 0) {
+				m.updateData()
+			}
+		}
 		if (page.lm.isLoggedIn) {
 			rebuildCalendarsModel()
 			rebuildTasklistsModel()

@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQml 2.15
 
 import "./calendars"
 
@@ -12,8 +13,6 @@ CalendarManager {
 	Component.onCompleted: {
 		bindSignals(googleCalendarManager)
 		bindSignals(googleTasksManager)
-		bindSignals(googleCalendarManager2)
-		bindSignals(googleTasksManager2)
 		bindSignals(plasmaCalendarManager)
 		// bindSignals(icalManager)
 		// bindSignals(debugCalendarManager)
@@ -92,18 +91,26 @@ CalendarManager {
 		session: googleApiSession
 	}
 
-	// Second Google account (config keys prefixed with "account2").
-	GoogleApiSession {
-		id: googleApiSession2
-		accountPrefix: "account2"
-	}
-	GoogleCalendarManager {
-		id: googleCalendarManager2
-		session: googleApiSession2
-	}
-	GoogleTasksManager {
-		id: googleTasksManager2
-		session: googleApiSession2
+	// Extra Google accounts (config keys prefixed with "account2".."account5").
+	Instantiator {
+		model: ["account2", "account3", "account4", "account5"]
+		delegate: QtObject {
+			id: account
+			property var session: GoogleApiSession {
+				accountPrefix: modelData
+			}
+			property var calendarManager: GoogleCalendarManager {
+				session: account.session
+			}
+			property var tasksManager: GoogleTasksManager {
+				session: account.session
+			}
+		}
+		onObjectAdded: function(index, object) {
+			eventModel.bindSignals(object.calendarManager)
+			eventModel.bindSignals(object.tasksManager)
+			deferredUpdate.restart()
+		}
 	}
 
 	PlasmaCalendarManager {

@@ -392,7 +392,7 @@
 		<entry name="tasklistIdList" type="string">
 			<default></default>
 		</entry>
-		<!-- Second Google account. Same keys as above, prefixed with account2. -->
+		<!-- Extra Google accounts. Same keys as above, prefixed with account2..account5. -->
 		<entry name="account2SessionClientId" type="string">
 			<default></default>
 		</entry>
@@ -421,6 +421,96 @@
 			<default></default>
 		</entry>
 		<entry name="account2TasklistIdList" type="string">
+			<default></default>
+		</entry>
+		<entry name="account3SessionClientId" type="string">
+			<default></default>
+		</entry>
+		<entry name="account3SessionClientSecret" type="string">
+			<default></default>
+		</entry>
+		<entry name="account3AccessToken" type="string">
+			<default></default>
+		</entry>
+		<entry name="account3AccessTokenType" type="string">
+			<default></default>
+		</entry>
+		<entry name="account3AccessTokenExpiresAt" type="double">
+			<default>0</default>
+		</entry>
+		<entry name="account3RefreshToken" type="string">
+			<default></default>
+		</entry>
+		<entry name="account3CalendarList" type="string" stringType="base64json">
+			<default></default>
+		</entry>
+		<entry name="account3CalendarIdList" type="string">
+			<default></default>
+		</entry>
+		<entry name="account3TasklistList" type="string" stringType="base64json">
+			<default></default>
+		</entry>
+		<entry name="account3TasklistIdList" type="string">
+			<default></default>
+		</entry>
+		<entry name="account4SessionClientId" type="string">
+			<default></default>
+		</entry>
+		<entry name="account4SessionClientSecret" type="string">
+			<default></default>
+		</entry>
+		<entry name="account4AccessToken" type="string">
+			<default></default>
+		</entry>
+		<entry name="account4AccessTokenType" type="string">
+			<default></default>
+		</entry>
+		<entry name="account4AccessTokenExpiresAt" type="double">
+			<default>0</default>
+		</entry>
+		<entry name="account4RefreshToken" type="string">
+			<default></default>
+		</entry>
+		<entry name="account4CalendarList" type="string" stringType="base64json">
+			<default></default>
+		</entry>
+		<entry name="account4CalendarIdList" type="string">
+			<default></default>
+		</entry>
+		<entry name="account4TasklistList" type="string" stringType="base64json">
+			<default></default>
+		</entry>
+		<entry name="account4TasklistIdList" type="string">
+			<default></default>
+		</entry>
+		<entry name="account5SessionClientId" type="string">
+			<default></default>
+		</entry>
+		<entry name="account5SessionClientSecret" type="string">
+			<default></default>
+		</entry>
+		<entry name="account5AccessToken" type="string">
+			<default></default>
+		</entry>
+		<entry name="account5AccessTokenType" type="string">
+			<default></default>
+		</entry>
+		<entry name="account5AccessTokenExpiresAt" type="double">
+			<default>0</default>
+		</entry>
+		<entry name="account5RefreshToken" type="string">
+			<default></default>
+		</entry>
+		<entry name="account5CalendarList" type="string" stringType="base64json">
+			<default></default>
+		</entry>
+		<entry name="account5CalendarIdList" type="string">
+			<default></default>
+		</entry>
+		<entry name="account5TasklistList" type="string" stringType="base64json">
+			<default></default>
+		</entry>
+		<entry name="account5TasklistIdList" type="string">
 			<default></default>
 		</entry>
 		<entry name="googleEventClickAction" type="string">
