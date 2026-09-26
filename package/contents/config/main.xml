@@ -319,7 +319,8 @@
 			<default>false</default>
 		</entry>
 		<entry name="eventReminderSfxPath" type="string">
-			<default>/usr/share/sounds/Oxygen-Im-Nudge.ogg</default>
+			<!-- A file path, or a sound name from the XDG sound theme. -->
+			<default>message-new-instant</default>
 		</entry>
 		<entry name="eventReminderMinutesBefore" type="int">
 			<default>15</default>
@@ -331,7 +332,8 @@
 			<default>true</default>
 		</entry>
 		<entry name="eventStartingSfxPath" type="string">
-			<default>/usr/share/sounds/Oxygen-Im-Nudge.ogg</default>
+			<!-- A file path, or a sound name from the XDG sound theme. -->
+			<default>alarm-clock-elapsed</default>
 		</entry>
 		<entry name="enabledCalendarPlugins" type="StringList">
 			<!-- Filenames stored in: -->

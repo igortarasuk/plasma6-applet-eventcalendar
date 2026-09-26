@@ -120,7 +120,7 @@ ConfigPage {
 					notificationEnabledKey: "eventReminderNotificationEnabled"
 					sfxEnabledKey: "eventReminderSfxEnabled"
 					sfxPathKey: "eventReminderSfxPath"
-					sfxPathDefaultValue: "/usr/share/sounds/Oxygen-Im-Nudge.ogg"
+					sfxPathDefaultValue: "message-new-instant"
 
 					RowLayout {
 						spacing: Kirigami.Units.smallSpacing
@@ -139,7 +139,7 @@ ConfigPage {
 					notificationEnabledKey: "eventStartingNotificationEnabled"
 					sfxEnabledKey: "eventStartingSfxEnabled"
 					sfxPathKey: "eventStartingSfxPath"
-					sfxPathDefaultValue: "/usr/share/sounds/Oxygen-Im-Nudge.ogg"
+					sfxPathDefaultValue: "alarm-clock-elapsed"
 				}
 			}
 		}
