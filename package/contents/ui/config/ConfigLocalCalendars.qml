@@ -3,7 +3,6 @@ import QtQuick.Controls as QQC2
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.workspace.calendar as PlasmaCalendar
-import org.kde.plasma.PimCalendars
 
 import "../lib"
 import "../calendars/PlasmaCalendarUtils.js" as PlasmaCalendarUtils
@@ -19,17 +18,25 @@ ConfigPage {
 	readonly property int roleIconName: Qt.UserRole + 5
 
 	// PimCalendarsModel is not guaranteed to be available (eg: headless
-	// installs without kdepim). Detect that gracefully.
+	// installs without kdepim). A static import would fail the whole page,
+	// so create it dynamically and detect that gracefully.
 	//
 	// PimCalendarsModel wraps an Akonadi::EntityTreeModel populated
 	// asynchronously (collectionTreeFetched), so an immediate refresh
 	// returns rowCount=0 even though collections exist. We trigger on
 	// rowsInserted / modelReset / dataChanged plus a few delayed retries.
-	readonly property var pimModel: PimCalendarsModel {
-		id: pimModel
-		onDataChanged: refreshAll()
-		onModelReset: refreshAll()
-		onRowsInserted: refreshAll()
+	property var pimModel: null
+
+	function createPimModel() {
+		try {
+			pimModel = Qt.createQmlObject("import org.kde.plasma.PimCalendars; PimCalendarsModel {}", page)
+		} catch (e) {
+			pimModel = null
+			return
+		}
+		pimModel.dataChanged.connect(refreshAll)
+		pimModel.modelReset.connect(refreshAll)
+		pimModel.rowsInserted.connect(refreshAll)
 	}
 
 	Timer {
@@ -104,7 +111,9 @@ ConfigPage {
 	}
 
 	Component.onCompleted: {
+		createPimModel()
 		refreshAll()
+		if (!pimModel) return
 		// PimCalendarsModel's initial population is async; probe a few times.
 		readyProbe.start()
 		readyProbe2.start()
