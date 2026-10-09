@@ -13,6 +13,7 @@ CalendarManager {
 		bindSignals(googleCalendarManager)
 		bindSignals(googleTasksManager)
 		bindSignals(plasmaCalendarManager)
+		bindSignals(yasnoOutageManager)
 		// bindSignals(icalManager)
 		// bindSignals(debugCalendarManager)
 		// bindSignals(debugGoogleCalendarManager)
@@ -92,6 +93,10 @@ CalendarManager {
 
 	PlasmaCalendarManager {
 		id: plasmaCalendarManager
+	}
+
+	YasnoOutageManager {
+		id: yasnoOutageManager
 	}
 
 	//---

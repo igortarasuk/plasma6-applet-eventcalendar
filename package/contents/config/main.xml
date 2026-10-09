@@ -444,6 +444,38 @@
 		-->
 	</group>
 
+	<group name="Ukraine">
+		<!-- Power outage schedule (Yasno, no API key required) -->
+		<entry name="outageEnabled" type="bool">
+			<default>false</default>
+		</entry>
+		<entry name="outageRegionId" type="uint">
+			<default>25</default>
+		</entry>
+		<entry name="outageDsoId" type="uint">
+			<default>902</default>
+		</entry>
+		<entry name="outageGroup" type="string">
+			<label>Eg: 1.1</label>
+			<default></default>
+		</entry>
+
+		<!-- Air raid alerts (siren.pp.ua, no API key required) -->
+		<entry name="alertEnabled" type="bool">
+			<default>false</default>
+		</entry>
+		<entry name="alertRegionId" type="string">
+			<default>31</default>
+		</entry>
+		<entry name="alertPollInterval" type="uint">
+			<label>Seconds</label>
+			<default>30</default>
+		</entry>
+		<entry name="alertNotify" type="bool">
+			<default>true</default>
+		</entry>
+	</group>
+
 	<group name="Weather">
 		<!-- Open-Meteo (no API key required) -->
 		<entry name="openMeteoLocationName" type="string">

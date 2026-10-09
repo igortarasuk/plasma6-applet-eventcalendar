@@ -25,6 +25,7 @@ PlasmoidItem {
 	AppletConfig { id: appletConfig }
 	NotificationManager { id: notificationManager }
 	NetworkMonitor { id: networkMonitor }
+	AlertModel { id: alertModel }
 
 	property alias eventModel: eventModel
 	property alias agendaModel: agendaModel

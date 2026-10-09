@@ -438,6 +438,10 @@ import "./weather/WeatherApi.js" as WeatherApi
 		// so the Local Calendars page writes its diff to pimEnabledCalendars
 		// whenever the user flips a checkbox.
 		function onPimEnabledCalendarsChanged() { logic.updateEvents() }
+		function onOutageEnabledChanged() { logic.updateEvents() }
+		function onOutageRegionIdChanged() { logic.updateEvents() }
+		function onOutageDsoIdChanged() { logic.updateEvents() }
+		function onOutageGroupChanged() { logic.updateEvents() }
 
 			//--- Weather
 			function onWeatherServiceChanged() { logic.resetWeatherAndUpdate() }

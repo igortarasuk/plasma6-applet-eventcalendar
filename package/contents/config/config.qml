@@ -59,6 +59,11 @@ PlasmaConfig.ConfigModel {
 		source: "config/ConfigWeather.qml"
 	}
 	PlasmaConfig.ConfigCategory {
+		name: i18n("Outages & Alerts")
+		icon: "dialog-warning"
+		source: "config/ConfigUkraine.qml"
+	}
+	PlasmaConfig.ConfigCategory {
 		name: i18n("Advanced")
 		icon: "applications-development"
 		source: "lib/ConfigAdvanced.qml"

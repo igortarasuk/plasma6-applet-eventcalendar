@@ -396,6 +396,22 @@ KCM.SimpleKCM {
 	property var cfg_meteogram_negativeTempColorDefault
 	property var cfg_meteogram_iconColor
 	property var cfg_meteogram_iconColorDefault
+	property var cfg_outageEnabled
+	property var cfg_outageEnabledDefault
+	property var cfg_outageRegionId
+	property var cfg_outageRegionIdDefault
+	property var cfg_outageDsoId
+	property var cfg_outageDsoIdDefault
+	property var cfg_outageGroup
+	property var cfg_outageGroupDefault
+	property var cfg_alertEnabled
+	property var cfg_alertEnabledDefault
+	property var cfg_alertRegionId
+	property var cfg_alertRegionIdDefault
+	property var cfg_alertPollInterval
+	property var cfg_alertPollIntervalDefault
+	property var cfg_alertNotify
+	property var cfg_alertNotifyDefault
 	// END AUTOGEN CFG (main.xml)
 
 

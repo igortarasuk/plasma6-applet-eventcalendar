@@ -78,10 +78,37 @@ import org.kde.kirigami as Kirigami
 	readonly property real fixedWidth: showLine2 ? Math.max(timeFormatSizer1.minWidth, timeFormatSizer2.minWidth) : timeFormatSizer1.minWidth
 	// onFixedWidthChanged: console.log('fixedWidth', showLine2, timeFormatSizer1.minWidth, timeFormatSizer2.minWidth)
 
+	// Air raid alert level
+	readonly property bool showAlertIndicator: alertModel.alertsEnabled
+	readonly property bool alertIndicatorInline: plasmoid.formFactor == PlasmaCore.Types.Horizontal
+	readonly property int alertIndicatorSize: Math.max(6, Math.round(Math.min(clock.height, Kirigami.Units.gridUnit * 2) * 0.3))
+	readonly property int alertIndicatorSpace: showAlertIndicator && alertIndicatorInline ? alertIndicatorSize + Kirigami.Units.smallSpacing : 0
+
+	Rectangle {
+		id: alertIndicator
+		visible: clock.showAlertIndicator
+		width: clock.alertIndicatorSize
+		height: width
+		radius: width / 2
+		color: alertModel.levelColor
+		anchors.left: parent.left
+		anchors.top: clock.alertIndicatorInline ? undefined : parent.top
+		anchors.verticalCenter: clock.alertIndicatorInline ? parent.verticalCenter : undefined
+
+		SequentialAnimation on opacity {
+			running: alertIndicator.visible && alertModel.level === "red"
+			loops: Animation.Infinite
+			alwaysRunToEnd: true
+			NumberAnimation { to: 0.3; duration: 600 }
+			NumberAnimation { to: 1; duration: 600 }
+		}
+	}
+
 	Column {
 		id: labels
 		spacing: 0
 		anchors.centerIn: parent
+		anchors.horizontalCenterOffset: clock.alertIndicatorSpace / 2
 
 		Item {
 			id: timeContainer1
@@ -161,9 +188,9 @@ import org.kde.kirigami as Kirigami
 
 			PropertyChanges { target: clock
 				targetHeight: clock.horizontalHeight
-				width: clock.fixedWidth
-				Layout.minimumWidth: clock.fixedWidth
-				Layout.preferredWidth: clock.fixedWidth
+				width: clock.fixedWidth + clock.alertIndicatorSpace
+				Layout.minimumWidth: clock.fixedWidth + clock.alertIndicatorSpace
+				Layout.preferredWidth: clock.fixedWidth + clock.alertIndicatorSpace
 			}
 			PropertyChanges { target: timeContainer1
 				width: clock.fixedWidth

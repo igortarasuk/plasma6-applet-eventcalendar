@@ -1659,6 +1659,137 @@ msgstr "Звукові файли (%1)"
 msgid "All files (%1)"
 msgstr "Усі файли (%1)"
 
+#: ../contents/ui (outages & alerts)
+msgid "Outages & Alerts"
+msgstr "Відключення і тривоги"
+
+#: ../contents/ui (outages & alerts)
+msgid "Power outage"
+msgstr "Відключення світла"
+
+#: ../contents/ui (outages & alerts)
+msgid "Possible power outage"
+msgstr "Можливе відключення світла"
+
+#: ../contents/ui (outages & alerts)
+msgid "Emergency power outages"
+msgstr "Екстрені відключення світла"
+
+#: ../contents/ui (outages & alerts)
+msgid "The schedule doesn't apply."
+msgstr "Графік не діє."
+
+#: ../contents/ui (outages & alerts)
+msgid "Group %1"
+msgstr "Група %1"
+
+#: ../contents/ui (outages & alerts)
+msgid "Red level: missile threat"
+msgstr "Червоний рівень: ракетна загроза"
+
+#: ../contents/ui (outages & alerts)
+msgid "Yellow level: elevated threat"
+msgstr "Жовтий рівень: підвищена загроза"
+
+#: ../contents/ui (outages & alerts)
+msgid "No alert"
+msgstr "Тривоги немає"
+
+#: ../contents/ui (outages & alerts)
+msgid "Alert level unknown"
+msgstr "Рівень тривоги невідомий"
+
+#: ../contents/ui (outages & alerts)
+msgid "Air raid alert: red level"
+msgstr "Повітряна тривога: червоний рівень"
+
+#: ../contents/ui (outages & alerts)
+msgid "Air raid alert: yellow level"
+msgstr "Повітряна тривога: жовтий рівень"
+
+#: ../contents/ui (outages & alerts)
+msgid "Air raid alert is over"
+msgstr "Відбій повітряної тривоги"
+
+#: ../contents/ui (outages & alerts)
+msgid "Searching…"
+msgstr "Пошук…"
+
+#: ../contents/ui (outages & alerts)
+msgid "Search failed: %1"
+msgstr "Помилка пошуку: %1"
+
+#: ../contents/ui (outages & alerts)
+msgid "Street not found."
+msgstr "Вулицю не знайдено."
+
+#: ../contents/ui (outages & alerts)
+msgid "House not found."
+msgstr "Будинок не знайдено."
+
+#: ../contents/ui (outages & alerts)
+msgid "Group not found."
+msgstr "Групу не знайдено."
+
+#: ../contents/ui (outages & alerts)
+msgid "Power outage schedule"
+msgstr "Графік відключень світла"
+
+#: ../contents/ui (outages & alerts)
+msgid "Show planned power outages as events (Yasno)"
+msgstr "Показувати планові відключення як події (Yasno)"
+
+#: ../contents/ui (outages & alerts)
+msgid "Provider:"
+msgstr "Оператор:"
+
+#: ../contents/ui (outages & alerts)
+msgid "Group:"
+msgstr "Група:"
+
+#: ../contents/ui (outages & alerts)
+msgid "Find the group by address"
+msgstr "Знайти групу за адресою"
+
+#: ../contents/ui (outages & alerts)
+msgid "Street:"
+msgstr "Вулиця:"
+
+#: ../contents/ui (outages & alerts)
+msgid "House:"
+msgstr "Будинок:"
+
+#: ../contents/ui (outages & alerts)
+msgid "Air raid alerts"
+msgstr "Повітряні тривоги"
+
+#: ../contents/ui (outages & alerts)
+msgid "Show the alert level next to the clock"
+msgstr "Показувати рівень тривоги біля годинника"
+
+#: ../contents/ui (outages & alerts)
+msgid "Region:"
+msgstr "Регіон:"
+
+#: ../contents/ui (outages & alerts)
+msgid "Check every:"
+msgstr "Перевіряти кожні:"
+
+#: ../contents/ui (outages & alerts)
+msgid "Notify when the alert level changes"
+msgstr "Сповіщати про зміну рівня тривоги"
+
+#: ../contents/ui (outages & alerts)
+msgctxt "power outage group example"
+msgid "Eg: 1.1"
+msgstr "Напр.: 1.1"
+
+#: ../contents/ui (outages & alerts)
+msgctxt "seconds"
+msgid " s"
+msgstr " с"
+
+
 #~ msgid "Icon Outline"
 #~ msgstr "Значок контуру"
 

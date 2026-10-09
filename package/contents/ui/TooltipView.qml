@@ -162,5 +162,23 @@ Item {
 				}
 			}
 		}
+
+		RowLayout {
+			visible: alertModel.alertsEnabled
+			spacing: Kirigami.Units.smallSpacing
+
+			Rectangle {
+				implicitWidth: Math.round(Kirigami.Units.gridUnit * 0.6)
+				implicitHeight: implicitWidth
+				radius: width / 2
+				color: alertModel.levelColor
+			}
+
+			PlasmaComponents3.Label {
+				Layout.maximumWidth: preferredTextWidth
+				wrapMode: Text.Wrap
+				text: alertModel.statusText
+			}
+		}
 	}
 }
