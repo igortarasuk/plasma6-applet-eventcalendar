@@ -32,6 +32,9 @@
 		<entry name="timerRepeats" type="bool">
 			<default>false</default>
 		</entry>
+		<entry name="shutdownAt" type="string">
+			<default></default>
+		</entry>
 		<entry name="clockFontFamily" type="string">
 			<default></default>
 		</entry>

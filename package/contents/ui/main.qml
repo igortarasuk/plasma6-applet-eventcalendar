@@ -32,6 +32,7 @@ PlasmoidItem {
 	
 	TimeModel { id: timeModel }
 	TimerModel { id: timerModel }
+	ShutdownModel { id: shutdownModel }
 	EventModel { id: eventModel }
 	UpcomingEvents { id: upcomingEvents }
 	AgendaModel {

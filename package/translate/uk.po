@@ -647,6 +647,40 @@ msgstr "Звук"
 msgid "Set Timer"
 msgstr "Встановити таймер"
 
+#: ../contents/ui/ShutdownModel.qml
+msgid "Shutdown timer"
+msgstr "Таймер вимкнення"
+
+#: ../contents/ui/ShutdownModel.qml
+#, kde-format
+msgid "The computer will shut down in %1"
+msgstr "Комп'ютер вимкнеться через %1"
+
+#: ../contents/ui/ShutdownModel.qml
+#, kde-format
+msgid "Postpone by %1"
+msgstr "Відкласти на %1"
+
+#: ../contents/ui/ShutdownModel.qml ../contents/ui/TimerView.qml
+msgid "Cancel shutdown"
+msgstr "Скасувати вимкнення"
+
+#: ../contents/ui/TimerView.qml
+#, kde-format
+msgid "Shutting down at %1. Click to cancel."
+msgstr "Вимкнення о %1. Натисніть, щоб скасувати."
+
+#: ../contents/ui/TimerView.qml
+#, kde-format
+msgid ""
+"Shut down the computer in %1.\n"
+"Each click adds %1 more.\n"
+"Right click to pick a delay."
+msgstr ""
+"Вимкнути комп'ютер через %1.\n"
+"Кожне натискання додає ще %1.\n"
+"Правий клік — вибрати затримку."
+
 #: ../contents/ui/UpcomingEvents.qml
 msgid "Events Starting"
 msgstr "Початок подій"

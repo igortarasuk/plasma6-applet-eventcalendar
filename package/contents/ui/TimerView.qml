@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.2 as QQC2
 import QtQuick.Layouts 1.1
+import QtQml
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.components as PlasmaComponents3
@@ -29,7 +30,7 @@ Item {
 			RowLayout {
 				id: topRow
 				spacing: Kirigami.Units.largeSpacing
-				property int contentsWidth: timerLabel.width + topRow.spacing + toggleButtonColumn.Layout.preferredWidth
+				property int contentsWidth: timerLabel.width + topRow.spacing + shutdownButtonColumn.implicitWidth + topRow.spacing + toggleButtonColumn.Layout.preferredWidth
 				property bool contentsFit: timerButtonView.width >= contentsWidth
 
 			PlasmaComponents3.ToolButton {
@@ -101,6 +102,67 @@ Item {
 				}
 			}
 			
+			ColumnLayout {
+				id: shutdownButtonColumn
+				Layout.alignment: Qt.AlignBottom
+
+				// Separate from the postpone button so that repeated clicks never land on cancel.
+				PlasmaComponents3.ToolButton {
+					id: shutdownCancelButton
+					visible: shutdownModel.active
+					icon.name: 'dialog-cancel'
+					text: timerModel.formatTimer(shutdownModel.secondsLeft)
+					onClicked: shutdownModel.cancel()
+
+					QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
+					QQC2.ToolTip.text: i18n("Shutting down at %1. Click to cancel.", Qt.formatTime(new Date(shutdownModel.shutdownAt), appletConfig.timeFormatShort))
+					QQC2.ToolTip.visible: hovered
+				}
+
+				PlasmaComponents3.ToolButton {
+					id: shutdownPostponeButton
+					icon.name: 'system-shutdown'
+					text: "+" + LocaleFuncs.durationShortFormat(shutdownModel.stepSeconds)
+					onClicked: shutdownModel.postpone()
+
+					QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
+					QQC2.ToolTip.text: i18n("Shut down the computer in %1.\nEach click adds %1 more.\nRight click to pick a delay.", LocaleFuncs.durationShortFormat(shutdownModel.stepSeconds))
+					QQC2.ToolTip.visible: hovered
+
+					MouseArea {
+						acceptedButtons: Qt.RightButton
+						anchors.fill: parent
+						onClicked: shutdownMenu.popup()
+					}
+
+					QQC2.Menu {
+						id: shutdownMenu
+
+						Instantiator {
+							model: shutdownModel.presets
+
+							QQC2.MenuItem {
+								icon.name: 'system-shutdown'
+								text: LocaleFuncs.durationShortFormat(modelData.seconds)
+								onTriggered: shutdownModel.setDelay(modelData.seconds)
+							}
+
+							onObjectAdded: (index, object) => shutdownMenu.insertItem(index, object)
+							onObjectRemoved: (index, object) => shutdownMenu.removeItem(object)
+						}
+
+						QQC2.MenuSeparator {}
+
+						QQC2.MenuItem {
+							icon.name: 'dialog-cancel'
+							text: i18n("Cancel shutdown")
+							enabled: shutdownModel.active
+							onTriggered: shutdownModel.cancel()
+						}
+					}
+				}
+			}
+
 			ColumnLayout {
 				id: toggleButtonColumn
 				Layout.alignment: Qt.AlignBottom
