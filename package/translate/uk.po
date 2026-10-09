@@ -1790,6 +1790,45 @@ msgid " s"
 msgstr " с"
 
 
+#: ../contents/ui (outages & alerts)
+msgid "Power outage schedule unavailable"
+msgstr "Графік відключень недоступний"
+
+#: ../contents/ui (outages & alerts)
+msgid "Unknown schedule status: %1"
+msgstr "Невідомий статус графіка: %1"
+
+#: ../contents/ui (outages & alerts)
+msgid "Power outages are back on schedule"
+msgstr "Відключення знову за графіком"
+
+#: ../contents/ui (outages & alerts)
+msgid "Notify about emergency power outages"
+msgstr "Сповіщати про екстрені відключення"
+
+#: ../contents/ui (outages & alerts)
+msgctxt "power outage notification date format"
+msgid "MMMM d"
+msgstr "d MMMM"
+
+#: ../contents/ui (outages & alerts)
+msgid "No power"
+msgstr "Без світла"
+
+#: ../contents/ui (outages & alerts)
+msgid "Possibly no power"
+msgstr "Можливо, без світла"
+
+#: ../contents/ui (outages & alerts)
+msgctxt "%1 = time range"
+msgid "No power: %1"
+msgstr "Без світла: %1"
+
+#: ../contents/ui (outages & alerts)
+msgctxt "%1 = time range"
+msgid "Possibly no power: %1"
+msgstr "Можливо, без світла: %1"
+
 #~ msgid "Icon Outline"
 #~ msgstr "Значок контуру"
 

@@ -82,6 +82,8 @@ function nextDateString(dateString) {
 ** @returns: null if the group isn't in the schedule, otherwise {
 ** 	outages: [ { start: 1791500400000, end: 1791505800000, definite: true }, ... ], // milliseconds
 ** 	emergencyDays: [ { start: "2026-10-09", end: "2026-10-10" }, ... ],
+** 	unknownDays: [ { start: "2026-10-09", end: "2026-10-10", status: "SomeNewStatus" }, ... ],
+** 	dayKinds: { "2026-10-09": "schedule", "2026-10-10": "waiting" }, // or "emergency", "unknown"
 ** 	updatedOn: "2026-10-09T08:12:15+00:00",
 ** }
 */
@@ -93,20 +95,31 @@ function parsePlannedOutages(data, group) {
 
 	var outages = []
 	var emergencyDays = []
+	var unknownDays = []
+	var dayKinds = {}
 	var days = [groupData.today, groupData.tomorrow]
 	for (var i = 0; i < days.length; i++) {
 		var day = days[i]
 		if (!day || !day.date) {
 			continue
 		}
+		var dateString = day.date.substr(0, 10)
 		if (day.status === 'EmergencyShutdowns') {
-			var dateString = day.date.substr(0, 10)
+			dayKinds[dateString] = 'emergency'
 			emergencyDays.push({ start: dateString, end: nextDateString(dateString) })
 			continue
 		}
-		if (day.status !== 'ScheduleApplies') {
-			continue // Eg: WaitingForSchedule
+		if (day.status === 'WaitingForSchedule') {
+			dayKinds[dateString] = 'waiting'
+			continue
 		}
+		if (day.status !== 'ScheduleApplies') {
+			// Don't silently show an empty day for a status we don't know about.
+			dayKinds[dateString] = 'unknown'
+			unknownDays.push({ start: dateString, end: nextDateString(dateString), status: '' + day.status })
+			continue
+		}
+		dayKinds[dateString] = 'schedule'
 		var dayStart = Date.parse(day.date)
 		var slots = day.slots || []
 		for (var j = 0; j < slots.length; j++) {
@@ -138,6 +151,8 @@ function parsePlannedOutages(data, group) {
 	return {
 		outages: merged,
 		emergencyDays: emergencyDays,
+		unknownDays: unknownDays,
+		dayKinds: dayKinds,
 		updatedOn: groupData.updatedOn || '',
 	}
 }

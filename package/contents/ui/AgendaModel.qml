@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 import "Shared.js" as Shared
+import "LocaleFuncs.js" as LocaleFuncs
 
 ListModel {
 	id: agendaModel
@@ -195,6 +196,54 @@ ListModel {
 		for (var i = 0; i < ordered.length; i++) eventList.push(ordered[i])
 	}
 
+	// Mark the events that take place during a power outage (see YasnoOutageManager).
+	function markOutageOverlaps(eventList) {
+		var outages = eventList.filter(function(eventItem) {
+			return eventItem.isPowerOutage && !eventItem.start.date
+		})
+		var timeArgs = { clock24h: appletConfig.clock24h }
+		eventList.forEach(function(eventItem) {
+			// Every event needs the same roles since dynamicRoles is disabled.
+			eventItem.isPowerOutage = !!eventItem.isPowerOutage
+			eventItem.outageDefinite = !!eventItem.outageDefinite
+			eventItem.outageOverlapText = ''
+			eventItem.outageOverlapColor = ''
+			if (eventItem.isPowerOutage || eventItem.kind === 'tasks#task' || eventItem.start.date) {
+				return
+			}
+			var eventStart = eventItem.startDateTime.getTime()
+			var eventEnd = eventItem.endDateTime.getTime()
+			var ranges = []
+			var isDefinite = false
+			var coversEvent = false
+			outages.forEach(function(outage) {
+				var start = Math.max(eventStart, outage.startDateTime.getTime())
+				var end = Math.min(eventEnd, outage.endDateTime.getTime())
+				// An event without a duration can still start during an outage.
+				if (!(start < end || (eventStart === eventEnd && start === end && eventStart < outage.endDateTime.getTime()))) {
+					return
+				}
+				isDefinite = isDefinite || outage.outageDefinite
+				coversEvent = coversEvent || (start === eventStart && end === eventEnd)
+				eventItem.outageOverlapColor = outage.backgroundColor
+				ranges.push(i18nc("from date/time %1 until date/time %2", "%1 - %2",
+					LocaleFuncs.formatEventTime(new Date(start), timeArgs),
+					LocaleFuncs.formatEventTime(new Date(end), timeArgs)
+				))
+			})
+			if (ranges.length === 0) {
+				return
+			}
+			if (coversEvent) {
+				eventItem.outageOverlapText = isDefinite ? i18n("No power") : i18n("Possibly no power")
+			} else if (isDefinite) {
+				eventItem.outageOverlapText = i18nc("%1 = time range", "No power: %1", ranges.join(", "))
+			} else {
+				eventItem.outageOverlapText = i18nc("%1 = time range", "Possibly no power: %1", ranges.join(", "))
+			}
+		})
+	}
+
 	function parseGCalEvents(data) {
 		agendaModel.populating = true
 		// agendaModel.clear()
@@ -250,6 +299,7 @@ ListModel {
 			}
 		})
 		sortSubTasks(data.items)
+		markOutageOverlaps(data.items)
 
 
 		var agendaItemList = []

@@ -404,6 +404,8 @@ KCM.SimpleKCM {
 	property var cfg_outageDsoIdDefault
 	property var cfg_outageGroup
 	property var cfg_outageGroupDefault
+	property var cfg_outageNotify
+	property var cfg_outageNotifyDefault
 	property var cfg_alertEnabled
 	property var cfg_alertEnabledDefault
 	property var cfg_alertRegionId

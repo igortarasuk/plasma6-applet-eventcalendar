@@ -17,6 +17,8 @@ CalendarManager {
 	// Keep showing the last known schedule when a refresh fails.
 	property var lastSchedule: null
 	property string lastScheduleKey: ""
+	// { "2026-10-09": "emergency" } as of the last successful refresh.
+	property var lastDayKinds: ({})
 
 	function createEvents(schedule) {
 		var items = []
@@ -37,6 +39,8 @@ CalendarManager {
 				"end": { "dateTime": new Date(outage.end).toISOString() },
 				"backgroundColor": outageColor,
 				"canEdit": false,
+				"isPowerOutage": true,
+				"outageDefinite": outage.definite,
 			})
 		})
 		schedule.emergencyDays.forEach(function(day) {
@@ -51,7 +55,56 @@ CalendarManager {
 				"canEdit": false,
 			})
 		})
+		schedule.unknownDays.forEach(function(day) {
+			items.push({
+				"id": outageCalendarId + "_unknown_" + day.start,
+				"htmlLink": Yasno.websiteUrl,
+				"summary": i18n("Power outage schedule unavailable"),
+				"description": description + "\n" + i18n("Unknown schedule status: %1", day.status),
+				"start": { "date": day.start },
+				"end": { "date": day.end },
+				"backgroundColor": outageColor,
+				"canEdit": false,
+			})
+		})
 		return items
+	}
+
+	function formatDay(dateString) {
+		var date = new Date(dateString + ' 00:00:00')
+		return date.toLocaleDateString(Qt.locale(), i18nc("power outage notification date format", "MMMM d"))
+	}
+
+	function notifyDayKindChanges(dayKinds) {
+		var previousDayKinds = lastDayKinds
+		lastDayKinds = dayKinds
+		if (!plasmoid.configuration.outageNotify) {
+			return
+		}
+		for (var dateString in dayKinds) {
+			var kind = dayKinds[dateString]
+			var previousKind = previousDayKinds[dateString]
+			var summary = ""
+			var icon = "dialog-warning"
+			if (kind === 'emergency' && previousKind !== 'emergency') {
+				summary = i18n("Emergency power outages")
+			} else if (kind === 'schedule' && previousKind === 'emergency') {
+				summary = i18n("Power outages are back on schedule")
+				icon = "dialog-positive"
+			} else {
+				continue
+			}
+			var body = formatDay(dateString) + ", " + i18n("Group %1", group)
+			if (kind === 'emergency') {
+				body += "<br />" + i18n("The schedule doesn't apply.")
+			}
+			notificationManager.notify({
+				appName: i18n("Event Calendar"),
+				appIcon: icon,
+				summary: summary,
+				body: body,
+			})
+		}
 	}
 
 	onFetchAllCalendars: {
@@ -63,6 +116,7 @@ CalendarManager {
 		var scheduleKey = [regionId, dsoId, group].join('/')
 		if (scheduleKey !== lastScheduleKey) {
 			lastSchedule = null
+			lastDayKinds = {}
 			lastScheduleKey = scheduleKey
 		}
 
@@ -80,6 +134,9 @@ CalendarManager {
 						logger.log('yasno: group not found in schedule', yasnoOutageManager.group)
 					}
 					yasnoOutageManager.lastSchedule = schedule
+					if (schedule) {
+						yasnoOutageManager.notifyDayKindChanges(schedule.dayKinds)
+					}
 				}
 				setCalendarData(outageCalendarId, {
 					"items": createEvents(yasnoOutageManager.lastSchedule),

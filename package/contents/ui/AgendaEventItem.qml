@@ -115,6 +115,14 @@ LinkRect {
 				color: model.backgroundColor || Kirigami.Theme.textColor
 			}
 
+			// The event takes place during a power outage.
+			Rectangle {
+				visible: !!model.outageOverlapColor
+				implicitWidth: appletConfig.eventIndicatorWidth
+				Layout.fillHeight: true
+				color: model.outageOverlapColor || "transparent"
+			}
+
 		ColumnLayout {
 			id: eventColumn
 			Layout.fillWidth: true
@@ -157,6 +165,17 @@ LinkRect {
 				font.pixelSize: appletConfig.agendaFontSize
 				font.weight: eventItemInProgress ? inProgressFontWeight : Font.Normal
 				visible: !editEventForm.visible && !isCondensed
+			}
+
+			PlasmaComponents3.Label {
+				id: eventOutageOverlap
+				text: model.outageOverlapText || ""
+				color: Kirigami.Theme.neutralTextColor
+				font.pointSize: -1
+				font.pixelSize: appletConfig.agendaFontSize
+				visible: !!text && !editEventForm.visible
+				Layout.fillWidth: true
+				wrapMode: Text.Wrap
 			}
 
 				Item {

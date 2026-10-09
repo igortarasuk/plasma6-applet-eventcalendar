@@ -115,6 +115,12 @@ ConfigPage {
 					placeholderText: i18nc("power outage group example", "Eg: 1.1")
 				}
 
+				ConfigCheckBox {
+					Kirigami.FormData.label: ""
+					configKey: "outageNotify"
+					text: i18n("Notify about emergency power outages")
+				}
+
 				Kirigami.Separator {
 					Kirigami.FormData.isSection: true
 					Kirigami.FormData.label: i18n("Find the group by address")

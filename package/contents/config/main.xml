@@ -459,6 +459,9 @@
 			<label>Eg: 1.1</label>
 			<default></default>
 		</entry>
+		<entry name="outageNotify" type="bool">
+			<default>true</default>
+		</entry>
 
 		<!-- Air raid alerts (siren.pp.ua, no API key required) -->
 		<entry name="alertEnabled" type="bool">
