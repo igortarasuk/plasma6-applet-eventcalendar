@@ -548,7 +548,7 @@ msgstr "%1in"
 #: ../contents/ui/MonthView.qml ../contents/ui/config/ConfigCalendar.qml
 msgctxt "calendar title format for current month"
 msgid "MMMM d, yyyy"
-msgstr "д мммм рррр"
+msgstr "d MMMM yyyy"
 
 #: ../contents/ui/MonthView.qml
 msgctxt "calendar title format for other months of current year"
