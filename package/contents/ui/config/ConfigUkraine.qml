@@ -15,6 +15,13 @@ ConfigPage {
 	readonly property var outageProvider: Yasno.getProvider(page.cfg_outageRegionId, page.cfg_outageDsoId)
 	readonly property bool canLookupAddress: !!outageProvider && !outageProvider.hasCities
 	property string lookupMessage: ""
+	readonly property bool hasAddress: page.cfg_outageStreetId > 0 && page.cfg_outageHouseId > 0
+
+	function forgetAddress() {
+		page.cfg_outageStreetId = 0
+		page.cfg_outageHouseId = 0
+		page.cfg_outageAddress = ""
+	}
 
 	function lookup(url, callback) {
 		page.lookupMessage = i18n("Searching…")
@@ -62,6 +69,9 @@ ConfigPage {
 			var group = Yasno.formatGroup(data)
 			if (group) {
 				page.cfg_outageGroup = group
+				page.cfg_outageStreetId = street.id
+				page.cfg_outageHouseId = house.id
+				page.cfg_outageAddress = street.value + ", " + house.value
 			} else {
 				page.lookupMessage = i18n("Group not found.")
 			}
@@ -104,6 +114,7 @@ ConfigPage {
 					onActivated: {
 						page.cfg_outageRegionId = model[currentIndex].regionId
 						page.cfg_outageDsoId = model[currentIndex].dsoId
+						page.forgetAddress()
 						streetCombo.model = []
 						houseCombo.model = []
 					}
@@ -113,6 +124,22 @@ ConfigPage {
 					Kirigami.FormData.label: i18n("Group:")
 					configKey: "outageGroup"
 					placeholderText: i18nc("power outage group example", "Eg: 1.1")
+				}
+
+				RowLayout {
+					Kirigami.FormData.label: i18n("Address:")
+					visible: page.hasAddress
+
+					QQC2.Label {
+						Layout.fillWidth: true
+						wrapMode: Text.Wrap
+						text: i18n("%1 — the group is updated automatically", page.cfg_outageAddress)
+					}
+					QQC2.Button {
+						text: i18n("Forget")
+						icon.name: "edit-clear"
+						onClicked: page.forgetAddress()
+					}
 				}
 
 				ConfigCheckBox {

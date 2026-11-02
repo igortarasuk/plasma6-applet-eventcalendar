@@ -1786,6 +1786,26 @@ msgid "Find the group by address"
 msgstr "Знайти групу за адресою"
 
 #: ../contents/ui (outages & alerts)
+msgid "Address:"
+msgstr "Адреса:"
+
+#: ../contents/ui (outages & alerts)
+msgid "%1 — the group is updated automatically"
+msgstr "%1 — група оновлюється автоматично"
+
+#: ../contents/ui (outages & alerts)
+msgid "Forget"
+msgstr "Забути"
+
+#: ../contents/ui (outages & alerts)
+msgid "Power outage group changed"
+msgstr "Змінилась група відключень"
+
+#: ../contents/ui (outages & alerts)
+msgid "%1: group %2 → %3"
+msgstr "%1: група %2 → %3"
+
+#: ../contents/ui (outages & alerts)
 msgid "Street:"
 msgstr "Вулиця:"
 

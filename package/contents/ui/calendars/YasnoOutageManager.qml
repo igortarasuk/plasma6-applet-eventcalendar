@@ -12,7 +12,10 @@ CalendarManager {
 	readonly property string outageColor: "#ff8f00"
 
 	readonly property string group: ("" + plasmoid.configuration.outageGroup).trim()
-	readonly property bool outagesEnabled: plasmoid.configuration.outageEnabled && Yasno.isGroupValid(group)
+	readonly property int streetId: plasmoid.configuration.outageStreetId
+	readonly property int houseId: plasmoid.configuration.outageHouseId
+	readonly property bool hasAddress: streetId > 0 && houseId > 0
+	readonly property bool outagesEnabled: plasmoid.configuration.outageEnabled && (hasAddress || Yasno.isGroupValid(group))
 
 	// Keep showing the last known schedule when a refresh fails.
 	property var lastSchedule: null
@@ -107,8 +110,52 @@ CalendarManager {
 		}
 	}
 
+	// Yasno moves houses between groups from time to time, so with a saved address
+	// the group is looked up again before every schedule refresh. A failed lookup
+	// keeps the last known group.
+	function refreshGroup(callback) {
+		var regionId = plasmoid.configuration.outageRegionId
+		var dsoId = plasmoid.configuration.outageDsoId
+		yasnoOutageManager.asyncRequests += 1
+		Requests.getJSON({
+			url: Yasno.groupUrl(regionId, dsoId, streetId, houseId),
+		}, function(err, data, xhr) {
+			var newGroup = err ? "" : Yasno.formatGroup(data)
+			if (err) {
+				logger.log('yasno.refreshGroup.err', err, xhr && xhr.status)
+			} else if (!Yasno.isGroupValid(newGroup)) {
+				logger.log('yasno.refreshGroup: no group for address', JSON.stringify(data))
+			} else if (newGroup !== yasnoOutageManager.group) {
+				var oldGroup = yasnoOutageManager.group
+				logger.log('yasno: group changed', oldGroup, '->', newGroup)
+				plasmoid.configuration.outageGroup = newGroup
+				if (oldGroup && plasmoid.configuration.outageNotify) {
+					notificationManager.notify({
+						appName: i18n("Event Calendar"),
+						appIcon: "dialog-information",
+						summary: i18n("Power outage group changed"),
+						body: i18n("%1: group %2 → %3", plasmoid.configuration.outageAddress, oldGroup, newGroup),
+					})
+				}
+			}
+			callback()
+			yasnoOutageManager.asyncRequestsDone += 1
+		})
+	}
+
 	onFetchAllCalendars: {
 		if (!outagesEnabled) {
+			return
+		}
+		if (hasAddress) {
+			refreshGroup(fetchSchedule)
+		} else {
+			fetchSchedule()
+		}
+	}
+
+	function fetchSchedule() {
+		if (!Yasno.isGroupValid(group)) {
 			return
 		}
 		var regionId = plasmoid.configuration.outageRegionId

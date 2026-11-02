@@ -462,6 +462,17 @@
 			<label>Eg: 1.1</label>
 			<default></default>
 		</entry>
+		<!-- Address picked in the config page. When set, the group is looked up
+		     again on every refresh, because Yasno moves houses between groups. -->
+		<entry name="outageStreetId" type="uint">
+			<default>0</default>
+		</entry>
+		<entry name="outageHouseId" type="uint">
+			<default>0</default>
+		</entry>
+		<entry name="outageAddress" type="string">
+			<default></default>
+		</entry>
 		<entry name="outageNotify" type="bool">
 			<default>true</default>
 		</entry>

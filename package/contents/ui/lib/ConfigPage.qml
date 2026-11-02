@@ -404,6 +404,12 @@ KCM.SimpleKCM {
 	property var cfg_outageDsoIdDefault
 	property var cfg_outageGroup
 	property var cfg_outageGroupDefault
+	property var cfg_outageStreetId
+	property var cfg_outageStreetIdDefault
+	property var cfg_outageHouseId
+	property var cfg_outageHouseIdDefault
+	property var cfg_outageAddress
+	property var cfg_outageAddressDefault
 	property var cfg_outageNotify
 	property var cfg_outageNotifyDefault
 	property var cfg_alertEnabled
