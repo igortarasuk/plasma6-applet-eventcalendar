@@ -537,3 +537,5 @@
 * First release version.
 * Syncs with Google Calendar using Device Code OAuth (access token stored in applet configuration) instead of KAccounts.
 * Double click a day in the MonthView to open the new event template in the browser.
+
+
